@@ -3,51 +3,15 @@ const app = express()
 const port = 3000
 const cors = require('cors')
 
-
-/*
-State Format
-{
-  state_root: string,
-  ee_state: []
-}
-*/
-
-/*
-Transaction Format
-{
-  //transaction is 3 int values sender, receiver, amount
-  transaction: []
-}
-*/
-
-/*
-Block Format
-{
-  pre:{
-    state_root: string,
-    ee_state: []
-  },
-  post:{
-    state_root: string,
-    ee_state: []
-  },
-  transaction:{
-    //transaction is 3 int values sender, receiver, amount
-    transaction: []
-  }
-}
-
-*/
-
 let chaindata = []
 
 chaindata[0] = {
   pre:{
-    state_root: "",
+    state_root: "9cf1e2ce",
     ee_state: [0, 1, 2, 3, 4]
   },
   post:{
-    state_root: "",
+    state_root: "2a8f5df4",
     ee_state: [2, 1, 2, 1, 4]
   },
   transaction:{
