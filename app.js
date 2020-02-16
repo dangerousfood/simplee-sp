@@ -1,38 +1,49 @@
-const express = require('express')
-const app = express()
-const port = 3000
-const cors = require('cors')
+const express = require('express');
+const bodyParser = require('body-parser');
+const app = express();
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+const port = 3000;
+const cors = require('cors');
 
-let chaindata = []
+let chaindata = [];
 
-chaindata[0] = {
-  pre:{
-    state_root: "9cf1e2ce",
-    ee_state: [0, 1, 2, 3, 4]
-  },
-  post:{
-    state_root: "2a8f5df4",
-    ee_state: [2, 1, 2, 1, 4]
-  },
-  transaction:{
-    transaction: [3, 0, 2]
+function printChain() {
+  for (let i=0; i<chaindata.length; i++) {
+    console.log("Block", i);
+    console.log(chaindata[i]);
   }
 }
-// getLatestBlock
+
 app.get('/getLatestBlock', cors(), (req, res) => {
-  //res.send('latestblock')
-  res.status(200).json(chaindata[chaindata.length-1])
-})
+  console.log("*********************")
+  console.log("Sending Latest Block");
+  console.log(JSON.stringify(chaindata[chaindata.length-1]));
+  res.status(200).json(chaindata[chaindata.length-1]);
+});
 
-// updateLatestBlock
-app.get('/updateLatestBlock', cors(), (req, res) => {
-  chaindata[chaindata.length] = req
-  res.status(200).json({status: "ok"})
-})
+app.post('/updateLatestBlock', cors(), (req, res) => {
 
-// app.get('/getStateByRoot', (req, res) => {
-//   chaindata.find((item) => item.)
-//   res.send('Hello World!')
-// })
+  console.log("------------------------------------------------------------");
 
-app.listen(port, () => console.log(`SimplEE-sp listening on port ${port}!`))
+  console.log("Current chain:");
+  printChain();
+  console.log("");
+  console.log("Posted block");
+  console.log(req.body);
+  console.log("");
+
+  if(chaindata.length>=1 && req.body['pre']['state_root']!=chaindata[chaindata.length-1]['post']['state_root']) {
+    console.log("--- Bad block!! ---");
+  }
+  else {
+    chaindata[chaindata.length] = req.body;
+    console.log("New chain:");
+    printChain();
+    console.log("");
+  }
+  res.status(200).json(JSON.stringify(chaindata));
+});
+
+
+app.listen(port, () => console.log(`SimplEE-sp listening on port ${port}!`));

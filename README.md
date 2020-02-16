@@ -3,7 +3,7 @@ SimplEE-sp is an express.js api designed to allow the retrieval of block and tra
 
 
 
-#### Block data object format 
+#### Block data object format
 ```
 {
   pre:{
@@ -14,19 +14,15 @@ SimplEE-sp is an express.js api designed to allow the retrieval of block and tra
     state_root: string,
     ee_state: []
   },
-  transaction:{
-    //transaction is 3 int values sender, receiver, amount
-    transaction: []
-  }
+  transactions: [] //transaction is 3 int values sender, receiver, amount
+
 }
 ```
 
 #### Transaction Format
 ```
-{
-  //transaction is 3 int values sender, receiver, amount
-  transaction: []
-}
+//transaction is 3 int values sender, receiver, amount
+[sender, receiver, amount]
 ```
 
 #### State Format
